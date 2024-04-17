@@ -60,6 +60,28 @@ class PlantByID(Resource):
         db.session.commit()
 
         return make_response('deleted plant successfully', 204)
+    
+    def patch(self, id):
+
+        data = request.get_json()
+
+        plant = Plant.query.filter_by(id=id).first()
+
+        for attr in data:
+            setattr(plant, attr, data[attr])
+
+        db.session.add(plant)
+        db.session.commit()
+
+        return make_response(plant.to_dict(), 200)
+
+    def delete(self, id):
+        plant = Plant.query.filter_by(id=id).first()
+        db.session.delete
+        db.session.commit()
+
+        return make_response('deleted plant successfully', 204)
+
 
 api.add_resource(PlantByID, '/plants/<int:id>')
         
